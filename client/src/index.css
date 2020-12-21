@@ -1,0 +1,224 @@
+main {
+  min-height: 80vh;
+  /* background: #f2f4fc; */
+}
+.spinner {
+  width: 100px;
+  height: 100px;
+  margin: auto;
+  display: block;
+}
+
+h1 {
+  font-weight: 600;
+}
+.btn-lignt {
+  background: #f4f4f4;
+  border: none;
+  padding: 7px 10px;
+  color: #373a3c;
+}
+.socialInputs > .form-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.socialInputs .socialIcon {
+  margin-right: 1.5rem;
+  font-size: 2rem;
+}
+
+/* Post Card start */
+.post_card {
+  display: flex;
+  flex-direction: row;
+}
+.post_cardBody {
+  padding: 1.1rem !important;
+}
+.post_img {
+  width: 18rem;
+  height: 12rem;
+}
+.post_title {
+  font-size: 1.4rem !important;
+  font-weight: 500 !important;
+  min-height: 4rem;
+  letter-spacing: 1px;
+}
+.post_readTime {
+  font-weight: 100;
+}
+.post_bottom,
+.post_authorInfo {
+  display: flex;
+  /* flex-direction: row; */
+  align-items: center;
+}
+.post_bottomForPostControl {
+  display: flex;
+  justify-content: space-between;
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid #2780e3;
+}
+.post_author {
+  letter-spacing: 0.5px;
+  margin-left: 1rem;
+  margin-bottom: 0px;
+  margin-right: 3rem;
+  color: #373a3c;
+}
+/* Post Card end */
+
+/* Comments start */
+.commentUserAndActions {
+  display: flex;
+  justify-content: space-between;
+}
+.user {
+  display: flex;
+  align-items: center;
+}
+.ant-comment-actions {
+  list-style-type: none;
+}
+.commentCard {
+  border: 1px solid rgb(149 149 149 / 13%) !important;
+}
+/* Comments end */
+/* Like Dislike start */
+.likeDislike_section {
+  display: flex;
+}
+.like span {
+  font-size: 2rem;
+  margin-right: 0.4rem;
+}
+.like_LikeFill,
+.like_LikeOutlined {
+  display: flex;
+  align-items: center;
+  place-content: center;
+}
+
+.dislike {
+  font-size: 2rem;
+}
+.dislike span {
+  margin-right: 0.4rem;
+}
+.dislike_dislikeFill,
+.dislike_dislikeOutlined {
+  display: flex;
+  align-items: center;
+  place-content: center;
+}
+.reactions {
+  font-size: 2rem;
+  cursor: pointer;
+}
+/* Like Dislike end */
+/* Dashboard start */
+.profilescreen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.profilescreen__userInfo {
+  background: #1b1b32;
+  color: #888787;
+  padding: 3rem 0;
+  width: 100%;
+  display: flex;
+}
+
+.socials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.socialIcons {
+  font-size: 1.2rem !important;
+  color: #ffff;
+  margin: 0 0.4rem;
+}
+
+.profilescreen__userInfoContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
+  margin: 0 auto;
+}
+
+.profilescreen__userInfoContent > img {
+  height: 150px;
+  width: 150px;
+  border: 5px solid #45456b;
+}
+
+.profilescreen__userInfoContent > h3 {
+  margin: 1.2rem 0;
+  font-weight: 600;
+  color: #eeeeee;
+}
+.profilescreen__userInfoContent > h4 {
+  font-size: 0.9rem;
+  color: #cfcfcf;
+  font-weight: 500;
+  letter-spacing: 2px;
+  background: rgb(75, 75, 75);
+  padding: 2px 5px;
+}
+.profilescreen__userInfoContent > p {
+  color: #bbbbbb;
+  letter-spacing: 1px;
+  line-height: 1.4rem;
+  text-align: center;
+}
+.profilescreen__socialInfo {
+  color: #eeeeee;
+  display: flex;
+}
+span.bulet {
+  height: 8px;
+  width: 8px;
+  background: #f7f7f7;
+  color: #bbbbbb;
+  border-radius: 50%;
+  margin: 0 1rem;
+}
+.socialIcon {
+  color: #f7f7f7;
+  font-size: 1.6rem;
+  margin: 3px 7px;
+}
+.socialIcon:hover {
+  color: #d4d4d4;
+}
+
+/* Dashboard end */
+
+@media (max-width: 992px) {
+  .post_card {
+    display: flex;
+    flex-direction: column;
+  }
+  .post_img {
+    width: 100%;
+    height: 16rem;
+  }
+}
+@media (max-width: 768px) {
+  .post_title {
+    font-size: 1rem;
+  }
+}

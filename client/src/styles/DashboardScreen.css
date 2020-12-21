@@ -1,0 +1,76 @@
+.profilescreen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.profilescreen__userInfo {
+  background: #1b1b32;
+  color: #888787;
+  padding: 3rem 0;
+  width: 100%;
+  display: flex;
+}
+
+.socials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.socials > a > svg {
+  font-size: 1rem;
+}
+
+.profilescreen__userInfoContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
+  margin: 0 auto;
+}
+
+.profilescreen__userInfoContent > img {
+  height: 150px;
+  width: 150px;
+  border: 5px solid #45456b;
+}
+
+.profilescreen__userInfoContent > h3 {
+  margin: 1.2rem 0;
+  font-weight: 600;
+  color: #eeeeee;
+}
+.profilescreen__userInfoContent > h4 {
+  font-size: 0.9rem;
+  color: #cfcfcf;
+  font-weight: 500;
+  letter-spacing: 2px;
+  background: rgb(75, 75, 75);
+  padding: 2px 5px;
+}
+.profilescreen__userInfoContent > p {
+  color: #bbbbbb;
+  letter-spacing: 1px;
+  line-height: 1.4rem;
+  text-align: center;
+}
+.profilescreen__socialInfo {
+  color: #eeeeee;
+}
+span.bulet {
+  height: 8px;
+  width: 8px;
+  background: #f7f7f7;
+  color: #bbbbbb;
+  border-radius: 50%;
+  margin: 0 1rem;
+}
+.socialIcon {
+  color: #f7f7f7;
+  font-size: 1.6rem;
+  margin: 3px 7px;
+}
+.socialIcon:hover {
+  color: #d4d4d4;
+}
