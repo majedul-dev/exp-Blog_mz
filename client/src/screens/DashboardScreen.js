@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { getProfileAction } from "../actions/profileAction";
 import Loader from "../components/Loader";
+import noImg from "../images/avatar-dimention.png";
 import {
   getUserDetails,
   updateUserAction,
@@ -26,6 +27,7 @@ const DashboardScreen = ({ history }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [avatar, setAvatar] = useState("");
+  const [image, setImage] = useState("");
   const [updateUser, setUpdateUser] = useState(false);
 
   const { profile, loading } = useSelector((state) => state.getProfile);
@@ -50,6 +52,20 @@ const DashboardScreen = ({ history }) => {
   const profilePicSubmitHandler = (e) => {
     e.preventDefault();
     dispatch(profilePicUpdateAction(profilePicFormData));
+  };
+
+  const handleChange = (e) => {
+    const file = e.target.files[0];
+    setAvatar(file);
+    previewFile(file);
+  };
+
+  const previewFile = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImage(reader.result);
+    };
   };
 
   useEffect(() => {
@@ -152,8 +168,28 @@ const DashboardScreen = ({ history }) => {
                         </Button>
                       )}
                     </div>
+
                     {updateUser && (
                       <>
+                        <div className='mb-2'>
+                          {image ? (
+                            <img
+                              src={image}
+                              alt='Choosen'
+                              style={{ height: "150px", marginTop: "2rem" }}
+                            />
+                          ) : (
+                            <img
+                              src={noImg}
+                              alt='no-img'
+                              style={{
+                                height: "150px",
+                                width: "140px",
+                                marginTop: "2rem",
+                              }}
+                            />
+                          )}
+                        </div>
                         <Form
                           className='mb-3'
                           onSubmit={profilePicSubmitHandler}>
@@ -163,7 +199,7 @@ const DashboardScreen = ({ history }) => {
                               label='Choose image for the profile picture'
                               accept='.jpg, .png, .jpeg'
                               name='avatar'
-                              onChange={(e) => setAvatar(e.target.files[0])}
+                              onChange={handleChange}
                             />
                           </Form.Group>
                           <Button type='submit'>Upload</Button>

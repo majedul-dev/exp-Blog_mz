@@ -11,7 +11,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserDetails, logoutUser } from "../actions/userAction";
 
-const Header = () => {
+const Header = ({ history }) => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.userDetails);
 
@@ -27,9 +27,9 @@ const Header = () => {
         </LinkContainer>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
-          <Nav className='mx-auto'>
+          <Nav className='ml-auto'>
             <LinkContainer to='/'>
-              <Nav.Link>Home</Nav.Link>
+              <Nav.Link>Blogs</Nav.Link>
             </LinkContainer>
             {!userInfo ? (
               <LinkContainer to='/login'>
@@ -51,10 +51,6 @@ const Header = () => {
               </NavDropdown>
             )}
           </Nav>
-          <Form inline>
-            <FormControl type='text' placeholder='Search' className='mr-sm-2' />
-            <Button variant='outline-light'>Search</Button>
-          </Form>
         </Navbar.Collapse>
       </div>
     </Navbar>

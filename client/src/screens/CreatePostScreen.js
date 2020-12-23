@@ -9,6 +9,7 @@ import Message from "../components/Message";
 const CreatePostScreen = () => {
   const dispatch = useDispatch();
   const [thumbnail, setThumbnail] = useState("");
+  const [image, setImage] = useState("");
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
@@ -21,7 +22,17 @@ const CreatePostScreen = () => {
   };
 
   const handleChange = (e) => {
-    setThumbnail(e.target.files[0]);
+    const file = e.target.files[0];
+    setThumbnail(file);
+    previewFile(file);
+  };
+
+  const previewFile = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImage(reader.result);
+    };
   };
 
   const submitHandler = (e) => {
@@ -40,8 +51,8 @@ const CreatePostScreen = () => {
   return (
     <div>
       <h1>Create a New Post</h1>
-      <Link to='/dashboard'>
-        <Button className='my-3'>Back to Dashboard</Button>
+      <Link to='/posts'>
+        <Button className='my-3'>Back to Posts</Button>
       </Link>
       <Row>
         <Col md={9} className='mx-auto mt-3'>
@@ -49,6 +60,15 @@ const CreatePostScreen = () => {
           {createPostSuccess && (
             <Alert variant='success'>Post Created Successfully</Alert>
           )}
+          <div className='mb-2'>
+            {image && (
+              <img
+                src={image}
+                alt='Choosen'
+                style={{ height: "150px", marginTop: "2rem" }}
+              />
+            )}
+          </div>
           <Form onSubmit={submitHandler}>
             <Form.Group>
               <Form.File
