@@ -4,7 +4,21 @@ import User from "../models/User.js";
 import Profile from "../models/Profile.js";
 import { validationResult } from "express-validator";
 import cloudinary from "cloudinary";
-const APIFeatures = require("../utils/APIFeatures");
+
+class APIFeatures {
+  constructor(query, queryStr) {
+    this.query = query;
+    this.queryStr = queryStr;
+  }
+
+  pagination(resPerPage) {
+    const currentPage = Number(this.queryStr.page) || 1;
+    const skip = resPerPage * (currentPage - 1);
+
+    this.query = this.query.limit(resPerPage).skip(skip);
+    return this;
+  }
+}
 
 // @route   GET api/posts
 // @desc    Get all posts
