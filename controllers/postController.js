@@ -4,7 +4,7 @@ import User from "../models/User.js";
 import Profile from "../models/Profile.js";
 import { validationResult } from "express-validator";
 import cloudinary from "cloudinary";
-import APIFeatures from "../utils/APIFeatures";
+const APIFeatures = require("../utils/APIFeatures");
 
 // @route   GET api/posts
 // @desc    Get all posts
@@ -12,14 +12,14 @@ import APIFeatures from "../utils/APIFeatures";
 export const getAllPosts = async (req, res) => {
   try {
     const resPerPage = 4;
-    const apiFeatures = new APIFeatures(
+    const apiFeature = new APIFeatures(
       Post.find().sort({ createdAt: "desc" }).populate("comments", "_id, user"),
       req.query
     ).pagination(resPerPage);
     // .sort({ createdAt: "desc" })
     // .populate("comments", "_id, user");
 
-    const posts = await apiFeatures.query;
+    const posts = await apiFeature.query;
     // const posts = await Post.find().sort({ createdAt: "desc" });
 
     if (!posts) {

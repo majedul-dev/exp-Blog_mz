@@ -13,4 +13,4 @@ class APIFeatures {
   }
 }
 
-export default APIFeatures;
+module.exports = APIFeatures;
