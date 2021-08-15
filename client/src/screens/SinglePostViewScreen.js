@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import ReactHtmlParser from "react-html-parser"; // htmlparser2, // convertNodeToElement, // processNodes,
-import { Alert, Button, Form } from "react-bootstrap";
+import { Alert, Button, Form, Image } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -11,6 +11,8 @@ import { getAllPosts, getSinglePost } from "../actions/postsAction";
 import { commentOnPostAction, getComments } from "../actions/commentAction";
 
 const SinglePostViewScreen = ({ match }) => {
+  const container = useRef(null);
+
   const postId = match.params.id;
   const dispatch = useDispatch();
   const [body, setBody] = useState("");
@@ -51,20 +53,29 @@ const SinglePostViewScreen = ({ match }) => {
   ]);
 
   return (
-    <div>
-      <Link to='/'>
-        <Button>All Posts</Button>
+    <div className="col-lg-8 mx-auto" ref={container}>
+      <Link to="/">
+        <Button variant="dark">All Posts</Button>
       </Link>
       {loading ? (
         <Loader />
       ) : error ? (
-        <Alert variant='danger'>{error}</Alert>
+        <Alert variant="danger">{error}</Alert>
       ) : (
-        <div className='py-4 my-2'>{post && ReactHtmlParser(post.body)}</div>
+        <>
+          <div className="py-4 my-2">
+            <h1 className="pb-3">{post.title}</h1>
+            <Image
+              src={post.thumbnail && post.thumbnail.url}
+              className="mb-5"
+            />
+            <div>{post && ReactHtmlParser(post.body)}</div>
+          </div>
+        </>
       )}
       <hr />
 
-      <div className='my-5'>
+      <div className="my-5">
         <LikeDislike postId={postId} post={post} />
       </div>
 
@@ -79,28 +90,29 @@ const SinglePostViewScreen = ({ match }) => {
         </div>
         {message && (
           <Alert
-            variant='danger'
+            variant="danger"
             onClose={() => setShow(!show)}
-            dismissible={true}>
+            dismissible={true}
+          >
             {message}
           </Alert>
         )}
-        <Form onSubmit={createCommentSubmitHandle} className='mb-4'>
+        <Form onSubmit={createCommentSubmitHandle} className="mb-4">
           <Form.Group>
             <Form.Control
-              type='text'
-              placeholder='Enter your comment'
+              type="text"
+              placeholder="Enter your comment"
               value={body}
               onChange={(e) => setBody(e.currentTarget.value)}
             />
           </Form.Group>
-          <Button type='submit' disabled={!userInfo}>
+          <Button type="submit" variant="dark" disabled={!userInfo}>
             Submit
           </Button>
         </Form>
 
         {postComments && (
-          <div className='mb-2'>
+          <div className="mb-2">
             {" "}
             <strong>{postComments.length}</strong>{" "}
             {postComments.length > 1 ? "Comments" : "Comment"} total

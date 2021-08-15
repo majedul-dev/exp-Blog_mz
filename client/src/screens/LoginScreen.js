@@ -29,15 +29,15 @@ const LoginScreen = ({ history, location }) => {
 
   return (
     <Row>
-      <Col md={6} className='mx-auto'>
-        <h1 className='text-center my-5'>Login Your Account</h1>
-        {error && <Message message={error} variant='danger' />}
-        <Form className='mt-4' onSubmit={submitHandler}>
+      <Col md={6} className="mx-auto">
+        <h1 className="text-center my-5">Login Your Account</h1>
+        {error && <Message message={error} variant="danger" />}
+        <Form className="mt-4" onSubmit={submitHandler}>
           <Form.Group>
             <Form.Label>Email address</Form.Label>
             <Form.Control
-              type='email'
-              placeholder='Enter email'
+              type="email"
+              placeholder="Enter email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -45,17 +45,17 @@ const LoginScreen = ({ history, location }) => {
           <Form.Group>
             <Form.Label>Password</Form.Label>
             <Form.Control
-              type='password'
-              placeholder='Enter Password'
+              type="password"
+              placeholder="Enter Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </Form.Group>
-          <Button type='submit' disabled={loading}>
+          <Button type="submit" className="btn-dark" disabled={loading}>
             Login
           </Button>
         </Form>
-        <p className='py-3'>
+        <p className="py-3">
           Don't have an account,{" "}
           <Link to={redirect ? `/register?redirect=${redirect}` : "/register"}>
             Register

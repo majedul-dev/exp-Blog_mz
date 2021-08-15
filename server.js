@@ -6,8 +6,8 @@ import userRouter from "./routes/userRoute.js";
 import profileRouter from "./routes/profileRoute.js";
 import postRouter from "./routes/postRoute.js";
 import commentRouter from "./routes/commentRoute.js";
-// import replyCommentRoute from "./routes/replyCommentRoute.js";
-// import uploadRouter from "./routes/uploadRoute.js";
+import cloudinary from "cloudinary";
+import fileUpload from "express-fileupload";
 
 dotenv.config();
 
@@ -17,9 +17,17 @@ app.use(cors());
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(fileUpload());
 
 // connect database
 connectDB();
+
+// Setting up cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 app.use("/api/users", userRouter);
 app.use("/api/profile", profileRouter);

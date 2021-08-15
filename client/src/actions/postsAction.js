@@ -29,13 +29,19 @@ import {
   UPDATE_POST_SUCCESS,
 } from "../constants/postsConstants";
 
-export const getAllPosts = () => async (dispatch) => {
+export const getAllPosts = (page) => async (dispatch) => {
   try {
     dispatch({ type: GET_POSTS_REQUEST });
 
-    const { data } = await axios.get("/api/posts");
+    const { data } = await axios.get(
+      `http://localhost:5000/api/posts?page=${page}`
+    );
 
-    dispatch({ type: GET_POSTS_SUCCESS, payload: data });
+    dispatch({
+      type: GET_POSTS_SUCCESS,
+      payload: data,
+      page,
+    });
   } catch (error) {
     dispatch({
       type: GET_POSTS_FAIL,
@@ -51,7 +57,9 @@ export const getSinglePost = (postId) => async (dispatch) => {
   try {
     dispatch({ type: GET_SINGLE_POST_REQUEST });
 
-    const { data } = await axios.get(`/api/posts/${postId}`);
+    const { data } = await axios.get(
+      `http://localhost:5000/api/posts/${postId}`
+    );
 
     dispatch({ type: GET_SINGLE_POST_SUCCESS, payload: data });
   } catch (error) {
@@ -79,7 +87,10 @@ export const getMyOwnPosts = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get("/api/posts/my", config);
+    const { data } = await axios.get(
+      "http://localhost:5000/api/posts/my",
+      config
+    );
 
     dispatch({ type: MY_OWN_POSTS_SUCCESS, payload: data });
   } catch (error) {
@@ -109,7 +120,11 @@ export const createPostAction = (formData) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post("/api/posts", formData, config);
+    const { data } = await axios.post(
+      "http://localhost:5000/api/posts",
+      formData,
+      config
+    );
 
     dispatch({ type: CREATE_POST_SUCCESS, payload: data });
   } catch (error) {
@@ -123,38 +138,40 @@ export const createPostAction = (formData) => async (dispatch, getState) => {
   }
 };
 
-export const updatePostAction = (id, formData) => async (
-  dispatch,
-  getState
-) => {
-  try {
-    dispatch({ type: UPDATE_POST_REQUEST });
+export const updatePostAction =
+  (id, formData) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: UPDATE_POST_REQUEST });
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
+      const {
+        userLogin: { userInfo },
+      } = getState();
 
-    const config = {
-      headers: {
-        Accept: "Application/JSON",
-        "Content-Type": "Application/JSON",
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+      const config = {
+        headers: {
+          Accept: "Application/JSON",
+          "Content-Type": "Application/JSON",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
 
-    const { data } = await axios.put(`/api/posts/${id}`, formData, config);
+      const { data } = await axios.put(
+        `http://localhost:5000/api/posts/${id}`,
+        formData,
+        config
+      );
 
-    dispatch({ type: UPDATE_POST_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({
-      type: UPDATE_POST_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.response,
-    });
-  }
-};
+      dispatch({ type: UPDATE_POST_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({
+        type: UPDATE_POST_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.response,
+      });
+    }
+  };
 
 export const deletePostAction = (id) => async (dispatch, getState) => {
   try {
@@ -170,7 +187,7 @@ export const deletePostAction = (id) => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(`/api/posts/${id}`, config);
+    await axios.delete(`http://localhost:5000/api/posts/${id}`, config);
 
     dispatch({ type: DELETE_POST_SUCCESS });
   } catch (error) {
@@ -200,7 +217,10 @@ export const addLikeAction = (postId) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/posts/like/${postId}`, config);
+    const { data } = await axios.get(
+      `http://localhost:5000/api/posts/like/${postId}`,
+      config
+    );
 
     // const resData = post._id === id ? post.likes.push(data) : post;
 
@@ -232,7 +252,10 @@ export const addDisLikeAction = (postId) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/posts/dislike/${postId}`, config);
+    const { data } = await axios.get(
+      `http://localhost:5000/api/posts/dislike/${postId}`,
+      config
+    );
 
     dispatch({ type: POST_DISLIKE_SUCCESS, payload: data });
   } catch (error) {
@@ -250,7 +273,9 @@ export const getLikeDislikeAction = (postId) => async (dispatch) => {
   try {
     dispatch({ type: GET_LIKEDISLIKE_REQUEST });
 
-    const { data } = await axios.get(`/api/posts/likedislike/${postId}`);
+    const { data } = await axios.get(
+      `http://localhost:5000/api/posts/likedislike/${postId}`
+    );
 
     dispatch({ type: GET_LIKEDISLIKE_SUCCESS, payload: data });
   } catch (error) {

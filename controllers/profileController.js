@@ -1,5 +1,6 @@
 import Profile from "../models/Profile.js";
 import { validationResult } from "express-validator";
+import cloudinary from "cloudinary";
 
 // @route   GET api/profile/me
 // @desc    Get user profile
@@ -47,43 +48,46 @@ export const getUserProfileByUserId = async (req, res) => {
 // @desc    Create or update user profile
 // @access  Private
 export const createProfile = async (req, res) => {
-  const errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-
-  const {
-    status,
-    bio,
-    website,
-    facebook,
-    twitter,
-    linkedin,
-    github,
-  } = req.body;
-
-  // Build profile object
-  const profileField = {};
-
-  profileField.user = req.user.id;
-  if (status) profileField.status = status;
-  if (bio) profileField.bio = bio;
-  if (website) profileField.website = website;
-
-  if (req.file) profileField.user.avatar = req.file.filename;
-  profileField.posts = [];
-  profileField.bookmarks = [];
-
-  // Build social object
-  profileField.social = {};
-  profileField.socia = {};
-  if (facebook) profileField.social.facebook = facebook;
-  if (twitter) profileField.social.twitter = twitter;
-  if (linkedin) profileField.social.linkedin = linkedin;
-  if (github) profileField.social.github = github;
-
   try {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    // const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
+    //   folder: "avatars",
+    //   width: 150,
+    //   crop: "scale",
+    // });
+
+    const { status, bio, website, facebook, twitter, linkedin, github } =
+      req.body;
+
+    // Build profile object
+    const profileField = {};
+
+    profileField.user = req.user.id;
+    if (status) profileField.status = status;
+    if (bio) profileField.bio = bio;
+    if (website) profileField.website = website;
+
+    // if (req.file)
+    //   profileField.user.avatar = {
+    //     public_id: result.public_id,
+    //     url: result.secure_url,
+    //   };
+    profileField.posts = [];
+    profileField.bookmarks = [];
+
+    // Build social object
+    profileField.social = {};
+    profileField.socia = {};
+    if (facebook) profileField.social.facebook = facebook;
+    if (twitter) profileField.social.twitter = twitter;
+    if (linkedin) profileField.social.linkedin = linkedin;
+    if (github) profileField.social.github = github;
+
     // update profile
     let profile = await Profile.findOne({ user: req.user.id });
     if (profile) {

@@ -22,11 +22,11 @@ router.get("/:id", getSinglePost);
 router.post(
   "/",
   isAuthenticated,
-  upload.single("thumbnail"),
+  // upload.single("thumbnail"),
   createPostValidation,
   createPost
 );
-router.put("/:id", isAuthenticated, upload.single("thumbnail"), updatePost);
+router.put("/:id", isAuthenticated, updatePost);
 router.delete("/:id", isAuthenticated, deletePost);
 router.get("/likedislike/:postId", getLikesOrDislikes);
 router.get("/like/:postId", isAuthenticated, likeOnPostController);

@@ -3,15 +3,25 @@ import Post from "../models/Post.js";
 import User from "../models/User.js";
 import Profile from "../models/Profile.js";
 import { validationResult } from "express-validator";
+import cloudinary from "cloudinary";
+import APIFeatures from "../utils/Apifeatures.js";
 
 // @route   GET api/posts
 // @desc    Get all posts
 // @access  Public
 export const getAllPosts = async (req, res) => {
   try {
-    const posts = await Post.find()
-      .sort({ createdAt: "desc" })
-      .populate("comments", "_id, user");
+    const resPerPage = 4;
+    const apiFeatures = new APIFeatures(
+      Post.find().sort({ createdAt: "desc" }).populate("comments", "_id, user"),
+      req.query
+    ).pagination(resPerPage);
+    // .sort({ createdAt: "desc" })
+    // .populate("comments", "_id, user");
+
+    const posts = await apiFeatures.query;
+    // const posts = await Post.find().sort({ createdAt: "desc" });
+
     if (!posts) {
       return res.status(404).json({ message: "No post found!" });
     }
@@ -71,20 +81,25 @@ export const createPost = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
 
+    const result = await cloudinary.v2.uploader.upload(req.body.thumbnail, {
+      folder: "Thumbnail",
+      width: 600,
+      crop: "scale",
+    });
+
     let newPost = new Post({
       user: req.user.id,
       title: req.body.title,
       body: req.body.body,
       author: user.name,
-      avatar: user.avatar,
-      thumbnail: req.file && `/uploads/${req.file.filename}`,
+      avatar: user.avatar.url,
       readTime: readingTime(req.body.body).text,
       comments: [],
+      thumbnail: {
+        public_id: result.public_id,
+        url: result.url,
+      },
     });
-
-    // if (req.file) {
-    //   newPost.thumbnail = `/uploads/${req.file.filename}`;
-    // }
 
     const createdPost = await newPost.save();
     await Profile.findOneAndUpdate(
@@ -127,6 +142,12 @@ export const updatePost = async (req, res) => {
       return res.status(401).json({ message: "Not authorized" });
     }
 
+    const result = await cloudinary.v2.uploader.upload(req.body.thumbnail, {
+      folder: "Thumbnail",
+      width: 500,
+      crop: "scale",
+    });
+
     const updatedPost = await Post.findOneAndUpdate(
       { _id: post._id },
       {
@@ -134,7 +155,10 @@ export const updatePost = async (req, res) => {
           title: req.body.title,
           body: req.body.body,
           readTime: readingTime(req.body.body).text,
-          thumbnail: `/uploads/${req.file.filename}`,
+          thumbnail: {
+            public_id: result.public_id,
+            url: result.url,
+          },
         },
       },
       { new: true }

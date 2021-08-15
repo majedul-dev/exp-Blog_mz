@@ -17,34 +17,40 @@ import EditProfileScreen from "./screens/EditProfileScreen";
 import AuthorProfileScreen from "./screens/AuthorProfileScreen";
 
 const App = () => {
+  const container = React.useRef();
   return (
     <>
       <Router>
         <Header />
         <main>
-          <Route path='/author/:userId' exact component={AuthorProfileScreen} />
-          <PrivateRoute path='/dashboard' component={DashboardScreen} />
-          <Container className='py-5'>
-            <Route path='/' exact component={HomeScreen} />
+          <Route path="/author/:userId" exact component={AuthorProfileScreen} />
+          <PrivateRoute path="/dashboard" component={DashboardScreen} />
+          <Container className="py-5">
+            <Route
+              path="/"
+              exact
+              component={HomeScreen}
+              container={container}
+            />
             <Switch>
-              <Route path='/login' exact component={LoginScreen} />
-              <Route path='/register' exact component={RegisterScreen} />
+              <Route path="/login" exact component={LoginScreen} />
+              <Route path="/register" exact component={RegisterScreen} />
 
               <PrivateRoute
-                path='/create-profile'
+                path="/create-profile"
                 component={CreateProfileScreen}
               />
               <PrivateRoute
-                path='/edit-profile'
+                path="/edit-profile"
                 component={EditProfileScreen}
               />
-              <PrivateRoute exact path='/posts' component={PostsScreen} />
+              <PrivateRoute exact path="/posts" component={PostsScreen} />
               <PrivateRoute
-                path='/posts/create-post'
+                path="/posts/create-post"
                 component={CreatePostScreen}
               />
-              <PrivateRoute path='/posts/:id/edit' component={EditPostScreen} />
-              <Route path='/post/:id' exact component={SinglePostViewScreen} />
+              <PrivateRoute path="/posts/:id/edit" component={EditPostScreen} />
+              <Route path="/post/:id" exact component={SinglePostViewScreen} />
             </Switch>
           </Container>
         </main>

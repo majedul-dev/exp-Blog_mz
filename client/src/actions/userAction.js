@@ -32,7 +32,10 @@ export const getUserDetails = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/users/me`, config);
+    const { data } = await axios.get(
+      `http://localhost:5000/api/users/me`,
+      config
+    );
     dispatch({ type: GET_USER_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -49,7 +52,10 @@ export const getUserLogin = (formData) => async (dispatch) => {
   try {
     dispatch({ type: LOGIN_USER_REQUEST });
 
-    const { data } = await axios.post("/api/users/login", formData);
+    const { data } = await axios.post(
+      "http://localhost:5000/api/users/login",
+      formData
+    );
 
     dispatch({ type: LOGIN_USER_SUCCESS, payload: data });
     localStorage.setItem("userInfo", JSON.stringify(data));
@@ -68,7 +74,17 @@ export const registerUser = (formData) => async (dispatch) => {
   try {
     dispatch({ type: REGISTER_USER_REQUEST });
 
-    const { data } = await axios.post("/api/users/signup", formData);
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+
+    const { data } = await axios.post(
+      "http://localhost:5000/api/users/signup",
+      formData,
+      config
+    );
 
     dispatch({ type: REGISTER_USER_SUCCESS, payload: data });
   } catch (error) {
@@ -97,7 +113,11 @@ export const updateUserAction = (formData) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put("/api/users/update", formData, config);
+    const { data } = await axios.put(
+      "http://localhost:5000/api/users/update",
+      formData,
+      config
+    );
 
     dispatch({ type: UPDATE_USER_SUCCESS, payload: data });
   } catch (error) {
@@ -111,39 +131,41 @@ export const updateUserAction = (formData) => async (dispatch, getState) => {
   }
 };
 
-export const profilePicUpdateAction = (formData) => async (
-  dispatch,
-  getState
-) => {
-  try {
-    dispatch({ type: UPDATE_USER_PROFILEPICTURE_REQUEST });
+export const profilePicUpdateAction =
+  (formData) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: UPDATE_USER_PROFILEPICTURE_REQUEST });
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
+      const {
+        userLogin: { userInfo },
+      } = getState();
 
-    const config = {
-      headers: {
-        "Content-Type": "Application/JSON",
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+      const config = {
+        headers: {
+          "Content-Type": "Application/JSON",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
 
-    await axios.put("/api/users/update/profilepic", formData, config);
+      await axios.put(
+        "http://localhost:5000/api/users/update/profilepic",
+        formData,
+        config
+      );
 
-    dispatch({
-      type: UPDATE_USER_PROFILEPICTURE_SUCCESS,
-    });
-  } catch (error) {
-    dispatch({
-      type: UPDATE_USER_PROFILEPICTURE_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.response,
-    });
-  }
-};
+      dispatch({
+        type: UPDATE_USER_PROFILEPICTURE_SUCCESS,
+      });
+    } catch (error) {
+      dispatch({
+        type: UPDATE_USER_PROFILEPICTURE_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.response,
+      });
+    }
+  };
 
 export const logoutUser = () => (dispatch) => {
   localStorage.removeItem("userInfo");

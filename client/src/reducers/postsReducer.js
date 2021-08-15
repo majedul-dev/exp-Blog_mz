@@ -36,7 +36,12 @@ export const getAllPostReducer = (state = { posts: [] }, action) => {
     case GET_POSTS_REQUEST:
       return { loading: true };
     case GET_POSTS_SUCCESS:
-      return { loading: false, success: true, posts: action.payload };
+      return {
+        loading: false,
+        success: true,
+        posts: action.payload,
+        page: action.page,
+      };
     case GET_POSTS_FAIL:
       return { loading: false, error: action.payload };
     default:

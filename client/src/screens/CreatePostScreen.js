@@ -9,7 +9,7 @@ import Message from "../components/Message";
 const CreatePostScreen = () => {
   const dispatch = useDispatch();
   const [thumbnail, setThumbnail] = useState("");
-  const [image, setImage] = useState("");
+  const [thumbnailPreview, setThumbnailPreview] = useState("");
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
@@ -22,17 +22,18 @@ const CreatePostScreen = () => {
   };
 
   const handleChange = (e) => {
-    const file = e.target.files[0];
-    setThumbnail(file);
-    previewFile(file);
-  };
+    if (e.target.name === "thumbnail") {
+      const reader = new FileReader();
 
-  const previewFile = (file) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setImage(reader.result);
-    };
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setThumbnailPreview(reader.result);
+          setThumbnail(reader.result);
+        }
+      };
+
+      reader.readAsDataURL(e.target.files[0]);
+    }
   };
 
   const submitHandler = (e) => {
@@ -51,20 +52,20 @@ const CreatePostScreen = () => {
   return (
     <div>
       <h1>Create a New Post</h1>
-      <Link to='/posts'>
-        <Button className='my-3'>Back to Posts</Button>
+      <Link to="/posts">
+        <Button className="my-3">Back to Posts</Button>
       </Link>
       <Row>
-        <Col md={9} className='mx-auto mt-3'>
-          {error && <Message message={error} variant='danger' />}
+        <Col md={9} className="mx-auto mt-3">
+          {error && <Message message={error} variant="danger" />}
           {createPostSuccess && (
-            <Alert variant='success'>Post Created Successfully</Alert>
+            <Alert variant="success">Post Created Successfully</Alert>
           )}
-          <div className='mb-2'>
-            {image && (
+          <div className="mb-2">
+            {thumbnailPreview && (
               <img
-                src={image}
-                alt='Choosen'
+                src={thumbnailPreview}
+                alt="Choosen"
                 style={{ height: "150px", marginTop: "2rem" }}
               />
             )}
@@ -72,29 +73,31 @@ const CreatePostScreen = () => {
           <Form onSubmit={submitHandler}>
             <Form.Group>
               <Form.File
-                id='exampleFormControlFile1'
-                label='Choose thumbnail for the post'
-                accept='.jpg, .png, .jpeg'
-                name='post-thumbnail'
+                id="exampleFormControlFile1"
+                label="Choose thumbnail for the post"
+                accept=".jpg, .png, .jpeg"
+                name="thumbnail"
                 onChange={handleChange}
               />
             </Form.Group>
-            <Form.Group controlId='formBasicEmail'>
+            <Form.Group controlId="formBasicEmail">
               <Form.Label>Post Title</Form.Label>
               <Form.Control
-                type='text'
-                placeholder='Enter your post title'
+                type="text"
+                placeholder="Enter your post title"
+                name="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
-              <Form.Text className='text-muted'>
+              <Form.Text className="text-muted">
                 Post title shuld be among 100 characters
               </Form.Text>
             </Form.Group>
 
             <Editor
-              apiKey='27ojk93awh6rux5nifxwolmvlswa3w4m05ikqwqlk14lqhvh'
+              apiKey="27ojk93awh6rux5nifxwolmvlswa3w4m05ikqwqlk14lqhvh"
               value={body}
+              name="body"
               init={{
                 height: 500,
                 menubar: false,
@@ -110,7 +113,7 @@ const CreatePostScreen = () => {
               }}
               onEditorChange={handleEditorChange}
             />
-            <Button type='submit' className='my-5' disabled={loading}>
+            <Button type="submit" className="my-5" disabled={loading}>
               Submit
             </Button>
           </Form>

@@ -1,105 +1,102 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Card, Col, Row } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { getAllPosts } from "../actions/postsAction";
+import React, { useEffect, useState, useRef } from "react";
 import Loader from "../components/Loader";
-import moment from "moment";
-import { getUserProfileAction } from "../actions/profileAction";
+import Axios from "axios";
+import Posts from "../components/Posts";
 
 const HomeScreen = () => {
-  const dispatch = useDispatch();
-  const [allPosts, setAllPosts] = useState([]);
-  const [searchStr, setSearchStr] = useState("");
+  // const [searchStr, setSearchStr] = useState("");
+  const container = useRef();
 
-  const { loading, posts } = useSelector((state) => state.getAllPosts);
+  console.log(container);
+  const [posts, setPosts] = useState([]);
+  const [page, setPage] = useState(1);
+  const [hasEnded, setHasEnded] = useState(false); // to indicate whether or not we've fetched all the records
+  const [loading, setLoading] = useState(true);
+
+  // console.log(container.current.getBoundingClientRect());
+
+  // useEffect(() => [container]);
+  useEffect(() => {
+    if (!hasEnded) {
+      // eslint-disable-next-line
+      fetch(page);
+    }
+
+    return () => {
+      window.removeEventListener("scroll", trackScrolling, true);
+    };
+    // eslint-disable-next-line
+  }, [page]);
 
   useEffect(() => {
-    dispatch(getAllPosts());
-  }, [dispatch]);
-
-  useEffect(() => {
-    setAllPosts(posts);
+    window.addEventListener("scroll", trackScrolling, true);
+    // eslint-disable-next-line
   }, [posts]);
+
+  // eslint-disable-next-line
+  const trackScrolling = () => {
+    if (
+      // container.current.getBoundingClientRect().bottom &&
+      container.current.getBoundingClientRect().bottom <= window.innerHeight
+      // window.innerHeight + document.documentElement.scrollTop ===
+      // document.documentElement.innerHeight
+    ) {
+      setPage(page + 1);
+      window.removeEventListener("scroll", trackScrolling, true);
+    }
+  };
+
+  const fetch = async () => {
+    setLoading(true);
+
+    const { data } = await Axios.get(
+      `http://localhost:5000/api/posts?page=${page}`
+    );
+
+    if (data.length === 0) {
+      setHasEnded(true);
+    } else {
+      setPosts([...posts, ...data]);
+    }
+
+    setLoading(false);
+  };
+
+  const renderPosts = () => {
+    return posts.map((post, index) => {
+      return (
+        <Posts
+          key={index}
+          post={post}
+          thumbnail={post.thumbnail.url}
+          title={post.title}
+          author={post.author}
+          readTime={post.readTime}
+          avatar={post.avatar}
+          user={post.user}
+          date={post.createdAt}
+          body={post.body}
+        />
+      );
+    });
+  };
+
+  if (!posts) return <div />;
 
   return (
     <>
-      <Row>
-        <Col
-          md={10}
-          className='mx-auto'
-          style={{ display: "flex", flexDirection: "column" }}>
-          <>
-            <h2 className='text-center mb-3' style={{ fontWeight: "500" }}>
-              All Posts
-            </h2>
-            <div className='mb-3' style={{ width: "100%" }}>
-              <input
-                className='search'
-                value={searchStr}
-                onChange={(e) => setSearchStr(e.target.value)}
-                placeholder='Search for blogs...'
-              />
-            </div>
-            {/* <div>{message && <h4>{message}</h4>}</div> */}
-            {loading ? (
-              <Loader />
-            ) : (
-              <div>
-                {allPosts &&
-                  allPosts
-                    // eslint-disable-next-line
-                    .filter((val) => {
-                      if (searchStr === "") {
-                        return val;
-                      } else if (
-                        val.title
-                          .toLowerCase()
-                          .includes(searchStr.toLowerCase())
-                      ) {
-                        return val;
-                      }
-                    })
-                    .map((post) => (
-                      <Card key={post._id} className='mb-4 post_card'>
-                        <Card.Img
-                          variant='top'
-                          className='post_img'
-                          src={post.thumbnail}
-                        />
-                        <Card.Body>
-                          <Link
-                            to={`/post/${post._id}`}
-                            style={{ color: "#373a3c" }}>
-                            <h1 className='post_title'>{post.title}</h1>
-                          </Link>
-                          <div className='pb-2'>
-                            <p className='text-muted post_readTime'>
-                              <small>{post.readTime}</small>
-                            </p>
-                          </div>
-                          <div className='post_bottom'>
-                            <img className='avatar' src={post.avatar} alt='' />
-                            <Link to={`/author/${post.user}`}>
-                              <p
-                                className='post_author'
-                                onClick={() =>
-                                  dispatch(getUserProfileAction(post.user))
-                                }>
-                                {post.author}
-                              </p>
-                            </Link>
-                            <div>{moment(post.createdAt).fromNow()}</div>
-                          </div>
-                        </Card.Body>
-                      </Card>
-                    ))}
-              </div>
-            )}
-          </>
-          {/* {!loading && <Button>Load More</Button>} */}
-        </Col>
-      </Row>
+      <h2 className="text-center mb-3" style={{ fontWeight: "500" }}>
+        All Posts
+      </h2>
+      <div ref={container}>
+        {renderPosts()}
+        {loading && <Loader />}
+        {hasEnded && (
+          <div className="end-articles-msg pt-5">
+            <p className="text-center text-primary">You're all caught up!</p>
+          </div>
+        )}
+      </div>
     </>
   );
 };

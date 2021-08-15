@@ -19,8 +19,14 @@ const postSchema = new mongoose.Schema(
     author: String,
     avatar: String,
     thumbnail: {
-      type: String,
-      required: true,
+      public_id: {
+        type: String,
+        required: true,
+      },
+      url: {
+        type: String,
+        required: true,
+      },
     },
     readTime: String,
     likes: [

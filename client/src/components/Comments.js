@@ -22,6 +22,9 @@ const Comments = ({ comment }) => {
   const { deleteSuccess } = useSelector((state) => state.deleteComment);
   const { updatedSuccess } = useSelector((state) => state.updateComment);
   const { replyCommentSuccess } = useSelector((state) => state.replyComment);
+  const { comments, loading: getCommentsLoading } = useSelector(
+    (state) => state.getComments
+  );
 
   const editCommentSubmitHandler = (e) => {
     e.preventDefault();
@@ -58,54 +61,57 @@ const Comments = ({ comment }) => {
     <div>
       <Row>
         <Col>
-          <Card className='mb-2 commentCard'>
+          <Card className="mb-2 commentCard">
             <Card.Body>
-              <div className='commentUserAndActions'>
-                <div className='user'>
+              <div className="commentUserAndActions">
+                <div className="user">
                   <img
                     src={comment.avatar}
-                    alt='avatar'
-                    className='avatar mr-1'
+                    alt="avatar"
+                    className="avatar mr-1"
                   />
                   <strong>{comment.name}</strong>
                 </div>
-                <div className='actions'>
+                <div className="actions">
                   {userInfo && userInfo.id === comment.user && (
                     <>
                       <Button
-                        variant='info'
-                        className='btn-sm'
-                        onClick={() => setOpenEdit(!openEdit)}>
+                        variant="light"
+                        className="btn-sm"
+                        onClick={() => setOpenEdit(!openEdit)}
+                      >
                         <FaEdit />
                       </Button>
                       <Button
-                        variant='danger'
-                        className='btn-sm'
+                        variant="light"
+                        className="btn-sm"
                         onClick={() =>
                           dispatch(deleteCommentAction(comment._id))
-                        }>
+                        }
+                      >
                         <FaTrashAlt />
                       </Button>
                     </>
                   )}
                 </div>
               </div>
-              <div className='mt-2'>
+              <div className="mt-2">
                 {openEdit ? (
-                  <Form onSubmit={editCommentSubmitHandler} className='mb-3'>
+                  <Form onSubmit={editCommentSubmitHandler} className="mb-3">
                     <Form.Group>
                       <Form.Control
-                        size='sm'
+                        size="sm"
                         onChange={(e) => setBody(e.target.value)}
                         value={body}
                       />
                     </Form.Group>
-                    <Button type='submit' className='btn-sm'>
+                    <Button type="submit" className="btn-sm">
                       Update
                     </Button>
                     <Button
-                      className='btn-light btn-sm'
-                      onClick={() => setOpenEdit(!openEdit)}>
+                      className="btn-light btn-sm"
+                      onClick={() => setOpenEdit(!openEdit)}
+                    >
                       Cancle
                     </Button>
                   </Form>
@@ -115,51 +121,54 @@ const Comments = ({ comment }) => {
               </div>
 
               <Button
-                className='btn-light btn-sm mb-2'
+                className="btn-light btn-sm mb-2"
                 disabled={!userInfo}
-                onClick={() => setOpenReply(!openReply)}>
+                onClick={() => setOpenReply(!openReply)}
+              >
                 Reply to{" "}
               </Button>
               <Button
-                className='btn-info btn-sm mb-2'
-                onClick={() => setShowReplies(!showReplies)}>
+                className="btn-dark btn-sm mb-2"
+                onClick={() => setShowReplies(!showReplies)}
+              >
                 {comment.replies.length} Replies
               </Button>
 
               {openReply && (
-                <Form onSubmit={replyCommentSubmitHandler} className='mb-2'>
-                  {message && <Alert variant='danger'>{message}</Alert>}
+                <Form onSubmit={replyCommentSubmitHandler} className="mb-2">
+                  {message && <Alert variant="danger">{message}</Alert>}
                   <Form.Group>
                     <Form.Control
-                      size='sm'
+                      size="sm"
                       onChange={(e) => setReplyBody(e.target.value)}
                       value={replyBody}
-                      placeholder='write some comments'
+                      placeholder="write some comments"
                     />
                   </Form.Group>
-                  <Button type='submit' className='btn-sm'>
+                  <Button type="submit" className="btn-sm">
                     Submit
                   </Button>
                   <Button
-                    className='btn-light btn-sm'
-                    onClick={() => setOpenReply(!openReply)}>
+                    className="btn-light btn-sm"
+                    onClick={() => setOpenReply(!openReply)}
+                  >
                     Cancle
                   </Button>
                 </Form>
               )}
               <Row>
-                <Col md={11} className='m-auto'>
+                <Col md={11} className="m-auto">
                   {showReplies &&
                     comment.replies &&
                     comment.replies.map((repCom) => (
-                      <Card key={repCom._id} className='mb-3'>
+                      <Card key={repCom._id} className="mb-3">
                         <Card.Body>
-                          <div className='commentUserAndActions'>
-                            <div className='user'>
+                          <div className="commentUserAndActions">
+                            <div className="user">
                               <img
-                                src={repCom.avatar}
-                                alt='avatar'
-                                className='avatar mr-1'
+                                src={repCom.avatar.url}
+                                alt="avatar"
+                                className="avatar mr-1"
                               />
                               <strong>{repCom.name}</strong>
                             </div>
@@ -172,7 +181,7 @@ const Comments = ({ comment }) => {
                             </div> */}
                           </div>
 
-                          <p className='mt-3'>{repCom.replyBody}</p>
+                          <p className="mt-3">{repCom.replyBody}</p>
                         </Card.Body>
                       </Card>
                     ))}

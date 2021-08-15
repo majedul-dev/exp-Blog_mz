@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import { validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
+import cloudinary from "cloudinary";
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -40,15 +41,29 @@ const signupUser = async (req, res) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
+    const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
+      folder: "avatars",
+      width: 150,
+      crop: "scale",
+    });
+
     const { name, email, password } = req.body;
     const user = await User.findOne({ email });
 
-    const avatar = `/uploads/no-image.JPG`;
+    // const avatar = `/uploads/no-image.JPG`;
 
     if (user) {
       return res.status(400).json({ errors: [{ msg: "Email already exist" }] });
     }
-    const newUser = new User({ name, email, password, avatar });
+    const newUser = await User.create({
+      name,
+      email,
+      password,
+      avatar: {
+        public_id: result.public_id,
+        url: result.secure_url,
+      },
+    });
 
     const createdUser = await newUser.save();
     return res.status(201).json(createdUser);

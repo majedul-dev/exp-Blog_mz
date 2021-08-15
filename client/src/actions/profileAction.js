@@ -25,7 +25,7 @@ export const getProfileAction = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get("/api/profile/me", config);
+    const { data } = await axios.get("http://localhost:5000/api/profile/me", config);
     dispatch({ type: GET_PROFILE_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -42,7 +42,7 @@ export const getUserProfileAction = (userId) => async (dispatch) => {
   try {
     dispatch({ type: GET_USER_PROFILE_REQUEST });
 
-    const { data } = await axios.get(`/api/profile/${userId}`);
+    const { data } = await axios.get(`http://localhost:5000/api/profile/${userId}`);
     dispatch({ type: GET_USER_PROFILE_SUCCESS, payload: data });
     console.log(data);
   } catch (error) {
@@ -74,7 +74,7 @@ export const createProfileAction = (formData, history, edit = false) => async (
       },
     };
 
-    const { data } = await axios.post("/api/profile", formData, config);
+    const { data } = await axios.post("http://localhost:5000/api/profile", formData, config);
     dispatch({ type: CREATE_PROFILE_SUCCESS, payload: data });
 
     if (!edit) {

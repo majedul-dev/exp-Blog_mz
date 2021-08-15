@@ -86,84 +86,91 @@ const DashboardScreen = ({ history }) => {
   return (
     <>
       {loading ? (
-        <div className='my-5'>
+        <div className="my-5">
           <Loader />
         </div>
       ) : (
         <>
           {profile ? (
-            <div className='profilescreen'>
-              <div className='profilescreen__userInfo'>
-                <div className='profilescreen__userInfoContent'>
-                  <img src={profile.user.avatar} alt='' />
+            <div className="profilescreen">
+              <div className="profilescreen__userInfo">
+                <div className="profilescreen__userInfoContent">
+                  <img src={profile.user.avatar.url} alt="" />
                   <h3>{profile.user.name}</h3>
                   <h4>{profile.status}</h4>
                   <p>{profile.bio}</p>
-                  <div className='profilescreen__socialInfo'>
+                  <div className="profilescreen__socialInfo">
                     <span>{posts && posts.length} posts</span>
-                    <span className='mx-4'>|</span>
-                    <div className='socials'>
+                    <span className="mx-4">|</span>
+                    <div className="socials">
                       <a
                         href={profile.website}
-                        target='_blank'
-                        rel='noreferrer'>
-                        <FaGlobeAmericas className='socialIcons' />
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <FaGlobeAmericas className="socialIcons" />
                       </a>
                       {profile.social.twitter && (
                         <a
                           href={profile.social.twitter}
-                          target='_blank'
-                          rel='noreferrer'>
-                          <FaTwitterSquare className='socialIcons' />
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <FaTwitterSquare className="socialIcons" />
                         </a>
                       )}
                       {profile.social.facebook && (
                         <a
                           href={profile.social.facebook}
-                          target='_blank'
-                          rel='noreferrer'>
-                          <FaFacebookSquare className='socialIcons' />
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <FaFacebookSquare className="socialIcons" />
                         </a>
                       )}
                       {profile.social.linkedin && (
                         <a
                           href={profile.social.linkedin}
-                          target='_blank'
-                          rel='noreferrer'>
-                          <FaLinkedin className='socialIcons' />
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <FaLinkedin className="socialIcons" />
                         </a>
                       )}
                       {profile.social.github && (
                         <a
                           href={profile.social.github}
-                          target='_blank'
-                          rel='noreferrer'>
-                          <FaGithubSquare className='socialIcons' />
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <FaGithubSquare className="socialIcons" />
                         </a>
                       )}
                     </div>
                   </div>
                 </div>
               </div>
-              <Container className='py-3 my-3'>
+              <Container className="py-3 my-3">
                 <Row>
                   <Col md={6}>
-                    <h1 className='mb-4 text-primary'>Update User</h1>
-                    <p className='lead'>
+                    <h1 className="mb-4 text-primary">Update User</h1>
+                    <p className="lead">
                       Toggle the button for getting the form of user details
                       inorder to update your profile picture, name or email.
                     </p>
-                    <div className='my-4'>
+                    <div className="my-4">
                       {updateUser ? (
                         <Button
-                          className='btn-info'
-                          onClick={() => setUpdateUser(!updateUser)}>
+                          className="btn-info"
+                          onClick={() => setUpdateUser(!updateUser)}
+                        >
                           Hide Update Fields
                         </Button>
                       ) : (
                         <Button
-                          className='btn-info'
-                          onClick={() => setUpdateUser(!updateUser)}>
+                          className="btn-info"
+                          onClick={() => setUpdateUser(!updateUser)}
+                        >
                           Show update Fields
                         </Button>
                       )}
@@ -171,17 +178,17 @@ const DashboardScreen = ({ history }) => {
 
                     {updateUser && (
                       <>
-                        <div className='mb-2'>
+                        <div className="mb-2">
                           {image ? (
                             <img
                               src={image}
-                              alt='Choosen'
+                              alt="Choosen"
                               style={{ height: "150px", marginTop: "2rem" }}
                             />
                           ) : (
                             <img
                               src={noImg}
-                              alt='no-img'
+                              alt="no-img"
                               style={{
                                 height: "150px",
                                 width: "140px",
@@ -191,26 +198,27 @@ const DashboardScreen = ({ history }) => {
                           )}
                         </div>
                         <Form
-                          className='mb-3'
-                          onSubmit={profilePicSubmitHandler}>
+                          className="mb-3"
+                          onSubmit={profilePicSubmitHandler}
+                        >
                           <Form.Group>
                             <Form.File
-                              id='profilePic'
-                              label='Choose image for the profile picture'
-                              accept='.jpg, .png, .jpeg'
-                              name='avatar'
+                              id="profilePic"
+                              label="Choose image for the profile picture"
+                              accept=".jpg, .png, .jpeg"
+                              name="avatar"
                               onChange={handleChange}
                             />
                           </Form.Group>
-                          <Button type='submit'>Upload</Button>
+                          <Button type="submit">Upload</Button>
                         </Form>
-                        <Form className='mb-5' onSubmit={userUpdateHandler}>
+                        <Form className="mb-5" onSubmit={userUpdateHandler}>
                           <Form.Group>
                             <Form.Label>Name</Form.Label>
                             <Form.Control
-                              type='text'
-                              placeholder='Enter new name'
-                              name='name'
+                              type="text"
+                              placeholder="Enter new name"
+                              name="name"
                               value={name}
                               onChange={(e) => setName(e.target.value)}
                             />
@@ -218,14 +226,14 @@ const DashboardScreen = ({ history }) => {
                           <Form.Group>
                             <Form.Label>Email</Form.Label>
                             <Form.Control
-                              type='email'
-                              placeholder='Enter new email'
-                              name='email'
+                              type="email"
+                              placeholder="Enter new email"
+                              name="email"
                               value={email}
                               onChange={(e) => setEmail(e.target.value)}
                             />
                           </Form.Group>
-                          <Button type='submit' className=''>
+                          <Button type="submit" className="">
                             Update
                           </Button>
                         </Form>
@@ -234,13 +242,13 @@ const DashboardScreen = ({ history }) => {
                     <hr />
                   </Col>
                   <Col md={6}>
-                    <h1 className='mb-4 text-primary'>Update Profile</h1>
-                    <p className='lead'>
+                    <h1 className="mb-4 text-primary">Update Profile</h1>
+                    <p className="lead">
                       Update profile that you had created after register your
                       account. You are able to customize your information that
                       you have enterd once.
                     </p>
-                    <Link to='/edit-profile'>
+                    <Link to="/edit-profile">
                       <Button onClick={() => dispatch(getProfileAction())}>
                         Edit Profile
                       </Button>
@@ -249,34 +257,34 @@ const DashboardScreen = ({ history }) => {
                 </Row>
                 <Row>
                   <Col md={6}>
-                    <p className='lead'>
+                    <p className="lead">
                       Navigate to your posts page and manage with create, update
                       or delete.
                     </p>
                   </Col>
                 </Row>
-                <Link to='/posts'>
+                <Link to="/posts">
                   <Button>My Posts</Button>
                 </Link>
               </Container>
             </div>
           ) : (
-            <Container className='py-2 my-5'>
-              <h1 className='text-primary' style={{ fontWeight: "800" }}>
+            <Container className="py-2 my-5">
+              <h1 className="text-primary" style={{ fontWeight: "800" }}>
                 Dashboard
               </h1>
               {userLoading ? (
                 <p>Loading...</p>
               ) : (
-                <h4 className='my-4'>
+                <h4 className="my-4">
                   <FaUser />
-                  <strong className='ml-2'>
+                  <strong className="ml-2">
                     Welcome, {userInfo && userInfo.name}!
                   </strong>
                 </h4>
               )}
               <p>You have not yet setup a profile, please add some info!</p>
-              <Link to='/create-profile'>
+              <Link to="/create-profile">
                 <Button>Create Profile</Button>
               </Link>
             </Container>

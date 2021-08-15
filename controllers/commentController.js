@@ -21,7 +21,7 @@ export const commentPostController = async (req, res) => {
       post: postId,
       user: req.user.id,
       name: user.name,
-      avatar: user.avatar,
+      avatar: user.avatar.url,
       body,
       replies: [],
     });

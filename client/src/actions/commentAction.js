@@ -40,7 +40,7 @@ export const commentOnPostAction = (formData, postId) => async (
     };
 
     const { data } = await axios.post(
-      `/api/comments/${postId}`,
+      `http://localhost:5000/api/comments/${postId}`,
       formData,
       config
     );
@@ -77,7 +77,7 @@ export const updateCommentAction = (formData, commentId) => async (
     };
 
     const { data } = await axios.put(
-      `/api/comments/${commentId}/edit`,
+      `http://localhost:5000/api/comments/${commentId}/edit`,
       formData,
       config
     );
@@ -98,7 +98,7 @@ export const getComments = () => async (dispatch) => {
   try {
     dispatch({ type: GET_COMMENTS_REQUEST });
 
-    const { data } = await axios.get(`/api/comments`);
+    const { data } = await axios.get(`http://localhost:5000/api/comments`);
 
     dispatch({ type: GET_COMMENTS_SUCCESS, payload: data });
   } catch (error) {
@@ -129,7 +129,7 @@ export const deleteCommentAction = (commentId) => async (
       },
     };
 
-    await axios.delete(`/api/comments/my/${commentId}`, config);
+    await axios.delete(`http://localhost:5000/api/comments/my/${commentId}`, config);
     dispatch({ type: DELETE_COMMENT_SUCCESS });
   } catch (error) {
     console.log(error);
@@ -161,7 +161,7 @@ export const getSingleCommentAction = (commentId) => async (
     };
 
     const { data } = await axios.get(
-      `/api/comments/single/${commentId}`,
+      `http://localhost:5000/api/comments/single/${commentId}`,
       config
     );
     dispatch({ type: GET_SINGLE_COMMENT_SUCCESS, payload: data });
@@ -195,7 +195,7 @@ export const replyCommentAction = (formData, commentId) => async (
       },
     };
 
-    await axios.post(`/api/comments/replies/${commentId}`, formData, config);
+    await axios.post(`http://localhost:5000/api/comments/replies/${commentId}`, formData, config);
 
     dispatch({ type: REPLY_COMMENT_SUCCESS });
   } catch (error) {
