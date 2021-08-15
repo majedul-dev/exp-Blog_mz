@@ -4,7 +4,7 @@ import User from "../models/User.js";
 import Profile from "../models/Profile.js";
 import { validationResult } from "express-validator";
 import cloudinary from "cloudinary";
-import APIFeatures from "../utils/Apifeatures.js";
+import APIFeatures from "../utils/APIFeatures";
 
 // @route   GET api/posts
 // @desc    Get all posts
