@@ -20,85 +20,81 @@ import {
   UPDATE_COMMENT_SUCCESS,
 } from "../constants/commentConstant";
 
-export const commentOnPostAction = (formData, postId) => async (
-  dispatch,
-  getState
-) => {
-  try {
-    dispatch({ type: COMMENT_ON_POST_REQUEST });
+export const commentOnPostAction =
+  (formData, postId) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: COMMENT_ON_POST_REQUEST });
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
+      const {
+        userLogin: { userInfo },
+      } = getState();
 
-    const config = {
-      headers: {
-        Accept: "Application/JSON",
-        "Content-Type": "Application/JSON",
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+      const config = {
+        headers: {
+          Accept: "Application/JSON",
+          "Content-Type": "Application/JSON",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
 
-    const { data } = await axios.post(
-      `http://localhost:5000/api/comments/${postId}`,
-      formData,
-      config
-    );
+      const { data } = await axios.post(
+        `${process.env.URL}/api/comments/${postId}`,
+        formData,
+        config
+      );
 
-    dispatch({ type: COMMENT_ON_POST_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({
-      type: COMMENT_ON_POST_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.response,
-    });
-  }
-};
+      dispatch({ type: COMMENT_ON_POST_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({
+        type: COMMENT_ON_POST_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.response,
+      });
+    }
+  };
 
-export const updateCommentAction = (formData, commentId) => async (
-  dispatch,
-  getState
-) => {
-  try {
-    dispatch({ type: UPDATE_COMMENT_REQUEST });
+export const updateCommentAction =
+  (formData, commentId) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: UPDATE_COMMENT_REQUEST });
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
+      const {
+        userLogin: { userInfo },
+      } = getState();
 
-    const config = {
-      headers: {
-        Accept: "Application/JSON",
-        "Content-Type": "Application/JSON",
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+      const config = {
+        headers: {
+          Accept: "Application/JSON",
+          "Content-Type": "Application/JSON",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
 
-    const { data } = await axios.put(
-      `http://localhost:5000/api/comments/${commentId}/edit`,
-      formData,
-      config
-    );
+      const { data } = await axios.put(
+        `${process.env.URL}/api/comments/${commentId}/edit`,
+        formData,
+        config
+      );
 
-    dispatch({ type: UPDATE_COMMENT_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({
-      type: UPDATE_COMMENT_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.response,
-    });
-  }
-};
+      dispatch({ type: UPDATE_COMMENT_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({
+        type: UPDATE_COMMENT_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.response,
+      });
+    }
+  };
 
 export const getComments = () => async (dispatch) => {
   try {
     dispatch({ type: GET_COMMENTS_REQUEST });
 
-    const { data } = await axios.get(`http://localhost:5000/api/comments`);
+    const { data } = await axios.get(`${process.env.URL}/api/comments`);
 
     dispatch({ type: GET_COMMENTS_SUCCESS, payload: data });
   } catch (error) {
@@ -112,99 +108,100 @@ export const getComments = () => async (dispatch) => {
   }
 };
 
-export const deleteCommentAction = (commentId) => async (
-  dispatch,
-  getState
-) => {
-  try {
-    dispatch({ type: DELETE_COMMENT_REQUEST });
+export const deleteCommentAction =
+  (commentId) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: DELETE_COMMENT_REQUEST });
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
+      const {
+        userLogin: { userInfo },
+      } = getState();
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
 
-    await axios.delete(`http://localhost:5000/api/comments/my/${commentId}`, config);
-    dispatch({ type: DELETE_COMMENT_SUCCESS });
-  } catch (error) {
-    console.log(error);
-    dispatch({
-      type: DELETE_COMMENT_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.response,
-    });
-  }
-};
+      await axios.delete(
+        `${process.env.URL}/api/comments/my/${commentId}`,
+        config
+      );
+      dispatch({ type: DELETE_COMMENT_SUCCESS });
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: DELETE_COMMENT_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.response,
+      });
+    }
+  };
 
-export const getSingleCommentAction = (commentId) => async (
-  dispatch,
-  getState
-) => {
-  try {
-    dispatch({ type: GET_SINGLE_COMMENT_REQUEST });
+export const getSingleCommentAction =
+  (commentId) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: GET_SINGLE_COMMENT_REQUEST });
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
+      const {
+        userLogin: { userInfo },
+      } = getState();
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
 
-    const { data } = await axios.get(
-      `http://localhost:5000/api/comments/single/${commentId}`,
-      config
-    );
-    dispatch({ type: GET_SINGLE_COMMENT_SUCCESS, payload: data });
-  } catch (error) {
-    console.log(error);
-    dispatch({
-      type: GET_SINGLE_COMMENT_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.response,
-    });
-  }
-};
+      const { data } = await axios.get(
+        `${process.env.URL}/api/comments/single/${commentId}`,
+        config
+      );
+      dispatch({ type: GET_SINGLE_COMMENT_SUCCESS, payload: data });
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: GET_SINGLE_COMMENT_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.response,
+      });
+    }
+  };
 
-export const replyCommentAction = (formData, commentId) => async (
-  dispatch,
-  getState
-) => {
-  try {
-    dispatch({ type: REPLY_COMMENT_REQUEST });
+export const replyCommentAction =
+  (formData, commentId) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: REPLY_COMMENT_REQUEST });
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
+      const {
+        userLogin: { userInfo },
+      } = getState();
 
-    const config = {
-      headers: {
-        "Content-Type": "Application/JSON",
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+      const config = {
+        headers: {
+          "Content-Type": "Application/JSON",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
 
-    await axios.post(`http://localhost:5000/api/comments/replies/${commentId}`, formData, config);
+      await axios.post(
+        `${process.env.URL}/api/comments/replies/${commentId}`,
+        formData,
+        config
+      );
 
-    dispatch({ type: REPLY_COMMENT_SUCCESS });
-  } catch (error) {
-    dispatch({
-      type: REPLY_COMMENT_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.response,
-    });
-  }
-};
+      dispatch({ type: REPLY_COMMENT_SUCCESS });
+    } catch (error) {
+      dispatch({
+        type: REPLY_COMMENT_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.response,
+      });
+    }
+  };

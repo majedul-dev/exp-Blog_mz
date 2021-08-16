@@ -50,7 +50,7 @@ const HomeScreen = () => {
     setLoading(true);
 
     const { data } = await Axios.get(
-      `http://localhost:5000/api/posts?page=${page}`
+      `${process.env.URL}/api/posts?page=${page}`
     );
 
     if (data.length === 0) {

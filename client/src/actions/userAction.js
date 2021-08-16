@@ -32,10 +32,7 @@ export const getUserDetails = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(
-      `http://localhost:5000/api/users/me`,
-      config
-    );
+    const { data } = await axios.get(`${process.env.URL}/api/users/me`, config);
     dispatch({ type: GET_USER_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -53,7 +50,7 @@ export const getUserLogin = (formData) => async (dispatch) => {
     dispatch({ type: LOGIN_USER_REQUEST });
 
     const { data } = await axios.post(
-      "http://localhost:5000/api/users/login",
+      `${process.env.URL}/api/users/login`,
       formData
     );
 
@@ -81,7 +78,7 @@ export const registerUser = (formData) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      "http://localhost:5000/api/users/signup",
+      `${process.env.URL}/api/users/signup`,
       formData,
       config
     );
@@ -114,7 +111,7 @@ export const updateUserAction = (formData) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(
-      "http://localhost:5000/api/users/update",
+      `${process.env.URL}/api/users/update`,
       formData,
       config
     );
@@ -148,7 +145,7 @@ export const profilePicUpdateAction =
       };
 
       await axios.put(
-        "http://localhost:5000/api/users/update/profilepic",
+        `${process.env.URL}/api/users/update/profilepic`,
         formData,
         config
       );
