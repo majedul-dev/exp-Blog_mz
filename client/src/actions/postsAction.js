@@ -34,7 +34,7 @@ export const getAllPosts = (page) => async (dispatch) => {
     dispatch({ type: GET_POSTS_REQUEST });
 
     const { data } = await axios.get(
-      `${process.env.URL}/api/posts?page=${page}`
+      `https://expblogmz.herokuapp.com/api/posts?page=${page}`
     );
 
     dispatch({
@@ -57,7 +57,9 @@ export const getSinglePost = (postId) => async (dispatch) => {
   try {
     dispatch({ type: GET_SINGLE_POST_REQUEST });
 
-    const { data } = await axios.get(`${process.env.URL}/api/posts/${postId}`);
+    const { data } = await axios.get(
+      `https://expblogmz.herokuapp.com/api/posts/${postId}`
+    );
 
     dispatch({ type: GET_SINGLE_POST_SUCCESS, payload: data });
   } catch (error) {
@@ -85,7 +87,10 @@ export const getMyOwnPosts = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`${process.env.URL}/api/posts/my`, config);
+    const { data } = await axios.get(
+      `https://expblogmz.herokuapp.com/api/posts/my`,
+      config
+    );
 
     dispatch({ type: MY_OWN_POSTS_SUCCESS, payload: data });
   } catch (error) {
@@ -116,7 +121,7 @@ export const createPostAction = (formData) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.post(
-      `${process.env.URL}/api/posts`,
+      `https://expblogmz.herokuapp.com/api/posts`,
       formData,
       config
     );
@@ -151,7 +156,7 @@ export const updatePostAction =
       };
 
       const { data } = await axios.put(
-        `${process.env.URL}/api/posts/${id}`,
+        `https://expblogmz.herokuapp.com/api/posts/${id}`,
         formData,
         config
       );
@@ -182,7 +187,10 @@ export const deletePostAction = (id) => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(`${process.env.URL}/api/posts/${id}`, config);
+    await axios.delete(
+      `https://expblogmz.herokuapp.com/api/posts/${id}`,
+      config
+    );
 
     dispatch({ type: DELETE_POST_SUCCESS });
   } catch (error) {
@@ -213,7 +221,7 @@ export const addLikeAction = (postId) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `${process.env.URL}/api/posts/like/${postId}`,
+      `https://expblogmz.herokuapp.com/api/posts/like/${postId}`,
       config
     );
 
@@ -248,7 +256,7 @@ export const addDisLikeAction = (postId) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `${process.env.URL}/api/posts/dislike/${postId}`,
+      `https://expblogmz.herokuapp.com/api/posts/dislike/${postId}`,
       config
     );
 
@@ -269,7 +277,7 @@ export const getLikeDislikeAction = (postId) => async (dispatch) => {
     dispatch({ type: GET_LIKEDISLIKE_REQUEST });
 
     const { data } = await axios.get(
-      `${process.env.URL}/api/posts/likedislike/${postId}`
+      `https://expblogmz.herokuapp.com/api/posts/likedislike/${postId}`
     );
 
     dispatch({ type: GET_LIKEDISLIKE_SUCCESS, payload: data });

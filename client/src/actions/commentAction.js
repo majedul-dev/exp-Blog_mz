@@ -38,7 +38,7 @@ export const commentOnPostAction =
       };
 
       const { data } = await axios.post(
-        `${process.env.URL}/api/comments/${postId}`,
+        `https://expblogmz.herokuapp.com/api/comments/${postId}`,
         formData,
         config
       );
@@ -73,7 +73,7 @@ export const updateCommentAction =
       };
 
       const { data } = await axios.put(
-        `${process.env.URL}/api/comments/${commentId}/edit`,
+        `https://expblogmz.herokuapp.com/api/comments/${commentId}/edit`,
         formData,
         config
       );
@@ -94,7 +94,9 @@ export const getComments = () => async (dispatch) => {
   try {
     dispatch({ type: GET_COMMENTS_REQUEST });
 
-    const { data } = await axios.get(`${process.env.URL}/api/comments`);
+    const { data } = await axios.get(
+      `https://expblogmz.herokuapp.com/api/comments`
+    );
 
     dispatch({ type: GET_COMMENTS_SUCCESS, payload: data });
   } catch (error) {
@@ -124,7 +126,7 @@ export const deleteCommentAction =
       };
 
       await axios.delete(
-        `${process.env.URL}/api/comments/my/${commentId}`,
+        `https://expblogmz.herokuapp.com/api/comments/my/${commentId}`,
         config
       );
       dispatch({ type: DELETE_COMMENT_SUCCESS });
@@ -156,7 +158,7 @@ export const getSingleCommentAction =
       };
 
       const { data } = await axios.get(
-        `${process.env.URL}/api/comments/single/${commentId}`,
+        `https://expblogmz.herokuapp.com/api/comments/single/${commentId}`,
         config
       );
       dispatch({ type: GET_SINGLE_COMMENT_SUCCESS, payload: data });
@@ -189,7 +191,7 @@ export const replyCommentAction =
       };
 
       await axios.post(
-        `${process.env.URL}/api/comments/replies/${commentId}`,
+        `https://expblogmz.herokuapp.com/api/comments/replies/${commentId}`,
         formData,
         config
       );

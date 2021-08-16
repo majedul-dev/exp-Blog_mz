@@ -26,7 +26,7 @@ export const getProfileAction = () => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `${process.env.URL}/api/profile/me`,
+      `https://expblogmz.herokuapp.com/api/profile/me`,
       config
     );
     dispatch({ type: GET_PROFILE_SUCCESS, payload: data });
@@ -46,7 +46,7 @@ export const getUserProfileAction = (userId) => async (dispatch) => {
     dispatch({ type: GET_USER_PROFILE_REQUEST });
 
     const { data } = await axios.get(
-      `${process.env.URL}/api/profile/${userId}`
+      `https://expblogmz.herokuapp.com/api/profile/${userId}`
     );
     dispatch({ type: GET_USER_PROFILE_SUCCESS, payload: data });
     console.log(data);
@@ -79,7 +79,7 @@ export const createProfileAction =
       };
 
       const { data } = await axios.post(
-        `${process.env.URL}/api/profile`,
+        `https://expblogmz.herokuapp.com/api/profile`,
         formData,
         config
       );

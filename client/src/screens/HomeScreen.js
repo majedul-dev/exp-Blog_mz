@@ -50,7 +50,7 @@ const HomeScreen = () => {
     setLoading(true);
 
     const { data } = await Axios.get(
-      `${process.env.URL}/api/posts?page=${page}`
+      `https://expblogmz.herokuapp.com/api/posts?page=${page}`
     );
 
     if (data.length === 0) {

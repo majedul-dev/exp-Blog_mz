@@ -32,7 +32,10 @@ export const getUserDetails = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`${process.env.URL}/api/users/me`, config);
+    const { data } = await axios.get(
+      `https://expblogmz.herokuapp.com/api/users/me`,
+      config
+    );
     dispatch({ type: GET_USER_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -50,7 +53,7 @@ export const getUserLogin = (formData) => async (dispatch) => {
     dispatch({ type: LOGIN_USER_REQUEST });
 
     const { data } = await axios.post(
-      `${process.env.URL}/api/users/login`,
+      `https://expblogmz.herokuapp.com/api/users/login`,
       formData
     );
 
@@ -78,7 +81,7 @@ export const registerUser = (formData) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      `${process.env.URL}/api/users/signup`,
+      `https://expblogmz.herokuapp.com/api/users/signup`,
       formData,
       config
     );
@@ -111,7 +114,7 @@ export const updateUserAction = (formData) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(
-      `${process.env.URL}/api/users/update`,
+      `https://expblogmz.herokuapp.com/api/users/update`,
       formData,
       config
     );
@@ -145,7 +148,7 @@ export const profilePicUpdateAction =
       };
 
       await axios.put(
-        `${process.env.URL}/api/users/update/profilepic`,
+        `https://expblogmz.herokuapp.com/api/users/update/profilepic`,
         formData,
         config
       );
